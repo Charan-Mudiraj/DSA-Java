@@ -61,6 +61,12 @@ public class BST_Array {
     // Recursive Appraoch
     // int index = binarySearchRecursive(arr, target, 0, arr.length - 1, true);
 
+    // floor
+    // int index = floor(arr, target);
+
+    // ceil
+    // int index = ceil(arr, target);
+
     if (index == -1) {
       System.out.println("Element not found");
     } else {
@@ -79,12 +85,12 @@ public class BST_Array {
       int mid = start + (end - start) / 2;
 
       // if element found
-      if (arr[mid] == target) return mid;
+      if (target == arr[mid]) return mid;
 
       if (isAcs) {
-        if (arr[mid] > target) end = mid - 1; else start = mid + 1;
+        if (target < arr[mid]) end = mid - 1; else start = mid + 1;
       } else {
-        if (arr[mid] < target) end = mid - 1; else start = mid + 1;
+        if (target > arr[mid]) end = mid - 1; else start = mid + 1;
       }
     }
 
@@ -103,10 +109,10 @@ public class BST_Array {
       int mid = start + (end - start) / 2;
 
       // if element found
-      if (arr[mid] == target) return mid;
+      if (target == arr[mid]) return mid;
 
       if (isAcs) {
-        if (arr[mid] > target) return binarySearchRecursive(
+        if (target < arr[mid]) return binarySearchRecursive(
           arr,
           target,
           start,
@@ -114,7 +120,7 @@ public class BST_Array {
           isAcs
         ); else return binarySearchRecursive(arr, target, mid + 1, end, isAcs);
       } else {
-        if (arr[mid] < target) return binarySearchRecursive(
+        if (target > arr[mid]) return binarySearchRecursive(
           arr,
           target,
           start,
@@ -124,5 +130,43 @@ public class BST_Array {
       }
     }
     return -1;
+  }
+
+  // only for asc
+  // return a greatest number that is <= to the target element (i,e., target element or just before the target element)
+  static int floor(int[] arr, int target) {
+    // if target itself is smaller than first element, return -1 (not found)
+    if (target < arr[0]) return -1;
+    int start = 0;
+    int end = arr.length - 1;
+
+    while (start <= end) {
+      int mid = start + (end - start) / 2;
+
+      if (target < arr[mid]) end = mid - 1; else if (target > arr[mid]) start =
+        mid + 1; else return mid;
+    }
+
+    // instead of returning (-1) just return the end (or mid)
+    return arr[end];
+  }
+
+  // only for asc
+  // return a smallest number that is >= to the target element (i.e., target element or just after the target element)
+  static int ceil(int[] arr, int target) {
+    // if target itself is greater than last element, return -1 (not found)
+    if (target > arr[arr.length - 1]) return -1;
+    int start = 0;
+    int end = arr.length - 1;
+
+    while (start <= end) {
+      int mid = start + (end - start) / 2;
+
+      if (target < arr[mid]) end = mid - 1; else if (target > arr[mid]) start =
+        mid + 1; else return mid;
+    }
+
+    // instead of returning (-1) just return the start (or mid+1) (cuz, at this point the loop would have broken only when start > end)
+    return arr[start];
   }
 }
